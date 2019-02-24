@@ -45,3 +45,20 @@ class Solution:
 时间复杂度的优化：
 从内向外优化  找到代码重复运行的地方  不要有遗漏的地方
 比较好的代码复杂度 O(1) < O(logn) < O(n1/2) < O(n) < O(nlogn)
+
+问题2：
+Say you have an array for which the ith element is the price of a given stock on day i.
+
+Design an algorithm to find the maximum profit. You may complete as many transactions as you like (i.e., buy one and sell one share of the stock multiple times).
+
+Note: You may not engage in multiple transactions at the same time (i.e., you must sell the stock before you buy again).
+分析：
+股票可以多次买卖 但同一时间只能买卖一次
+
+方法：
+
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        if len(prices) == 0:
+            return 0
+        return sum([max(prices[i+1] - prices[i],0) for i in range(len(prices)-1)])
