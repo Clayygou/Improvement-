@@ -1,0 +1,64 @@
+###问题描述
+##给定数组a[1,...,n],求最大子数组和。即找出1<=i<=j<=n,使得a[i]+a[i+1]+...+a[j]最大
+##解决方案
+##一、暴力枚举 三重循环 时间复杂度O(n^3)，附加空间复杂度O(1)
+##for i<-1 to n
+##    for j<-i to n
+##        sum<-a[i]+...+a[j]
+##        ans<-max(ans,sum)
+def get_max(a):
+    ans = 0
+    for i in range(len(a)):
+        for j in range(i, len(a)):
+            sum = 0
+            for k in range(i, j):
+                sum = sum + a[k]
+                ans = max(sum, ans)
+    print('max:', ans)
+    return ans
+##二、对内层循环进行优化  时间复杂度O(n^2)，附加空间复杂度O(1)
+##最内层是求和的运算，在求sum[j]的时候，我们只要知道sum[j-1]+a[j]
+##for i<-1 to n
+##    sum<-0
+##    for j<-i to n
+##        sum<sum+a[j]
+##        ans<-max(ans,sum)
+def get_max2(a):
+    ans = 0
+    for i in range(len(a)):
+        sum = 0
+        for j in range(i, len(a)):
+            sum = sum + a[j]
+            ans = max(sum, ans)
+    print('max:', ans)
+    return ans
+##三、对内层循环进行优化  时间复杂度O(n)，附加空间复杂度O(1)
+##要观察哪些运算是不需要的
+##如果sum<0，再求和之后一定不是最优了，所以说要在求sum时加一个判断
+##
+##for i<-1 to n
+##    sum<-0
+##    for j<-i to n
+##        if sum<0
+##           sum=0
+##        sum<sum+a[j]
+##        ans<-max(ans,sum)
+
+## 加上判断之后，我们发现，该算法 是有重复计算的 
+## 如i=2， j=4时sum<0,那一直到i=4之前都是在进行重复
+##sum<-0
+##for i<-1 to n
+##    if sum<0
+##       sum=0
+##    sum<sum+a[i]
+##    ans<-max(ans,sum)
+def get_max3(a):
+    ans = 0
+    sum = 0
+    for i in range(len(a)):
+        if sum < 0:
+            sum = 0
+        sum = sum + a[i]
+        ans = max(sum, ans)
+    print('max:', ans)
+    return ans
